@@ -1,3 +1,17 @@
+// Credit to ChatGPT
+//   -It gave me the idea to use a set of visited nodes
+//      -I was trying an array of moves made
+//      -It was so messy
+//   -It also gave me the idea of a nested function
+//      -I was trying to pass path as an argument, just all around a bad idea
+//
+//   -It also helped explain the concept to me
+//      -It's great at explaining algorithms/processes
+//
+//   -It also did like 90% of my debugging
+//      -Debugging a program in 10 seconds instead of several hours was a game changer
+//      -I even asked it to prove to me why it was breaking several times w/ test cases
+
 /*
 *  Performs depth-first search on graph to find viable path from startNode to targetNode
 *  @param {Object.<char, string[]>} graph - Incoming graph represented as an adjacency list
@@ -29,7 +43,8 @@ function depthFirstSearch(graph, startNode, targetNode) {
 
         for (const neighbor of graph[node])
             if (!visited.has(neighbor))
-                return dfs(neighbor);
+                if(dfs(neighbor))
+                    return true;
 
         path.pop();
         return false;
@@ -40,57 +55,3 @@ function depthFirstSearch(graph, startNode, targetNode) {
         return path;
     return [];
 }
-
-const graph1 = {
-    'A': ['B', 'C'],
-    'B': ['A', 'D'],
-    'C': ['E'],
-    'D': ['F'],
-    'E': ['F'],
-    'F': ['B'],
-    'G': ['H'],
-    'H': []
-};
-
-const graph2 = {
-    'A': []
-};
-
-const graph3 = {
-    'A': ['B', 'C'],
-    'B': ['D'],
-    'C': ['E'],
-    'D': ['F'],
-    'E': ['F'],
-    'F': []
-};
-
-// Typical case
-let startNode = 'A', targetNode = 'F';
-let path = depthFirstSearch(graph1, startNode, targetNode);
-console.log("Path from", startNode, "to", targetNode + ":", path);
-
-// Target does not exist
-startNode = 'H'; targetNode = 'I';
-path = depthFirstSearch(graph1, startNode, targetNode);
-console.log("Path from", startNode, "to", targetNode + ":", path);
-
-// Neither start nor target exists
-startNode = 'I'; targetNode = 'J';
-path = depthFirstSearch(graph1, startNode, targetNode);
-console.log("Path from", startNode, "to", targetNode + ":", path);
-
-// Start is equivalent to target
-startNode = 'A'; targetNode = 'A';
-path = depthFirstSearch(graph1, startNode, targetNode);
-console.log("Path from", startNode, "to", targetNode + ":", path);
-
-// There's only one element
-startNode = 'A'; targetNode = 'A';
-path = depthFirstSearch(graph2, startNode, targetNode);
-console.log("Path from", startNode, "to", targetNode + ":", path);
-
-// Another typical case
-startNode = 'I'; targetNode = 'J';
-path = depthFirstSearch(graph3, startNode, targetNode);
-console.log("Path from", startNode, "to", targetNode + ":", path);
